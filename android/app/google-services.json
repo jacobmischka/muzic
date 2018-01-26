@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "23238803326",
+    "firebase_url": "https://vaulted-bazaar-192618.firebaseio.com",
+    "project_id": "vaulted-bazaar-192618",
+    "storage_bucket": "vaulted-bazaar-192618.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:23238803326:android:dc817d763541f4c3",
+        "android_client_info": {
+          "package_name": "com.muzic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "23238803326-h0t4753eo0fonaefo2h97p427500nnbj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.muzic",
+            "certificate_hash": "77e08bd5dce01413535d0a7d02c183060fe6f2ec"
+          }
+        },
+        {
+          "client_id": "23238803326-fjg7vrhb7i368up01s4b02dtf92utbmh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.muzic",
+            "certificate_hash": "82daca0cd78da9c3fb005c2473fff1aff15a8a3f"
+          }
+        },
+        {
+          "client_id": "23238803326-hcascl454q7t3fuse4s7n5sc3j4j2dko.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACQh2P3i_fBYUi2YIyw49jDkDttLFgdzA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "23238803326-hcascl454q7t3fuse4s7n5sc3j4j2dko.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
