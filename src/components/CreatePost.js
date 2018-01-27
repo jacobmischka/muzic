@@ -7,9 +7,9 @@ import firebase from 'react-native-firebase';
 import SpotifyClipper from './SpotifyClipper.js';
 import UserLibraryList from './UserLibraryList.js';
 
-import { logError } from '../errors.js';
+import postIcon from '../assets/png/plus.png';
 
-import postIcon from '../assets/plus.svg';
+import { primaryColor } from '../styles.js';
 
 type Props = {
 	screenProps: {
@@ -70,7 +70,7 @@ export default class CreatePost extends Component<Props, State> {
 							this.setState({body});
 						}} />
 
-					<Button title="Post"
+					<Button title="Post" color={primaryColor}
 						onPress={this.handlePost} />
 				</View>
 			)
@@ -79,7 +79,6 @@ export default class CreatePost extends Component<Props, State> {
 					<View>
 						<UserLibraryList spotifyToken={spotifyToken}
 							onSelect={songUri => {
-								console.log('selected song ', songUri);
 								this.setState({ songUri });
 							}} />
 					</View>

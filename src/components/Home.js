@@ -6,7 +6,7 @@ import firebase from 'react-native-firebase';
 
 import Timeline from './Timeline.js';
 
-import homeIcon from '../assets/home.svg';
+import homeIcon from '../assets/png/home.png';
 
 import type { NavigationScreenProp } from 'react-navigation';
 import type { $npm$firebase$database$Reference } from 'firebase';

@@ -4,13 +4,16 @@ import React, { Component } from 'react';
 import {
 	View,
 	Text,
-	Button,
-	Image
+	TouchableHighlight,
+	Image,
+	StyleSheet
 } from 'react-native';
 import SpotifyApi from 'spotify-web-api-js';
 
 import SpotifyModule from '../native-modules/Spotify.js';
-import plusCircleImage from '../assets/plus-circle.svg';
+import plusCircleImage from '../assets/png/plus-circle.png';
+import playImage from '../assets/png/play.png';
+import pauseImage from '../assets/png/pause.png';
 
 import { logError } from '../errors.js';
 import { playbackTimestamp } from '../formatters.js';
@@ -128,8 +131,10 @@ export default class SpotifyPlayer extends Component<Props, State> {
 						{' / '}
 						{playbackTimestamp(this.getClipLength())}
 					</Text>
-					<Button title={playing ? 'Pause' : 'Play'}
-						onPress={this.handleTogglePlay} />
+					<TouchableHighlight onPress={this.handleTogglePlay}>
+						<Image height={24} width={24}
+							source={playing ? pauseImage : playImage} />
+					</TouchableHighlight>
 				</View>
 			)
 			: (

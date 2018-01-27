@@ -5,6 +5,8 @@ import SpotifyApi from 'spotify-web-api-js';
 
 import SpotifyPlayer from './SpotifyPlayer.js';
 
+import { primaryColor } from '../styles.js';
+
 import type { Track } from 'spotify-web-api-js';
 
 const spotifyApi = new SpotifyApi();
@@ -64,6 +66,7 @@ export default class UserLibraryList extends Component<Props, State> {
 		return (
 			<View>
 				<Button title="Select track"
+					color={primaryColor}
 					onPress={() => {
 						if (onSelect)
 							onSelect(track.uri);
