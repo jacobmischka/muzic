@@ -83,8 +83,8 @@ export default class App extends Component<{}, State> {
 				const userRef = firebase.database().ref(`/users/${firebaseUser.uid}`);
 				userRef.set({
 					id: firebaseUser.uid,
-					username: 'new_username',
-					displayName: 'Your name',
+					username: 'muzic_user',
+					displayName: 'Muzic user',
 					avatar: `https://api.adorable.io/avatars/100/${firebaseUser.uid}.png`
 				});
 			}
@@ -103,7 +103,7 @@ export default class App extends Component<{}, State> {
 	}
 
 	render() {
-		const { loggedInSpotify, spotifyToken, firebaseUser } = this.state;
+		const {spotifyToken, firebaseUser } = this.state;
 
 		if (!firebaseUser)
 			return (
@@ -112,7 +112,7 @@ export default class App extends Component<{}, State> {
 				</View>
 			);
 
-		return loggedInSpotify && spotifyToken
+		return spotifyToken
 		? (
 			<View style={{flex: 1, marginTop: StatusBar.currentHeight}}>
 				<StatusBar

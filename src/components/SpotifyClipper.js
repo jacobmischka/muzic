@@ -1,7 +1,7 @@
 /* @flow */
 
 import React, { Component } from 'react';
-import { Slider, Text, View } from 'react-native';
+import { Slider, Text, View, StyleSheet } from 'react-native';
 import SpotifyApi from 'spotify-web-api-js';
 
 import SpotifyPlayer from './SpotifyPlayer.js';
@@ -71,29 +71,39 @@ export default class SpotifyClipper extends Component<Props, State> {
 
 		return track
 			? (
-				<View>
+				<View style={styles.clipper}>
 					<SpotifyPlayer spotifyToken={spotifyToken}
 						songUri={songUri} />
 
-					<View>
-						<Slider value={startTime}
-							maximumValue={track.duration_ms}
-							onSlidingComplete={startTime => {
-								if (onStartChange)
-									onStartChange(startTime);
-							}} />
-						<Text>{playbackTimestamp(startTime)}</Text>
-					</View>
+					<View style={styles.slidersContainer}>
+						<View style={styles.sliderContainer}>
+							<Text style={styles.sliderLabel}>
+								Start time
+							</Text>
+							<Slider style={styles.slider}
+								value={startTime}
+								maximumValue={track.duration_ms}
+								onValueChange={startTime => {
+									if (onStartChange)
+										onStartChange(startTime);
+								}} />
+							<Text>{playbackTimestamp(startTime)}</Text>
+						</View>
 
-					<View>
-						<Slider value={endTime}
-							minimumValue={startTime}
-							maximumValue={track.duration_ms}
-							onSlidingComplete={endTime => {
-								if (onEndChange)
-									onEndChange(endTime);
-							}} />
-						<Text>{playbackTimestamp(endTime)}</Text>
+						<View style={styles.sliderContainer}>
+							<Text style={styles.sliderLabel}>
+								End time
+							</Text>
+							<Slider style={styles.slider}
+								value={endTime}
+								minimumValue={startTime}
+								maximumValue={track.duration_ms}
+								onValueChange={endTime => {
+									if (onEndChange)
+										onEndChange(endTime);
+								}} />
+							<Text>{playbackTimestamp(endTime)}</Text>
+						</View>
 					</View>
 				</View>
 			)
@@ -102,3 +112,24 @@ export default class SpotifyClipper extends Component<Props, State> {
 			);
 	}
 }
+
+const styles = StyleSheet.create({
+	clipper: {
+
+	},
+	slidersContainer: {
+
+	},
+	sliderContainer: {
+		flexDirection: 'row',
+		padding: 5
+	},
+	slider: {
+		flex: 1
+	},
+	sliderLabel: {
+		flexBasis: 100,
+		padding: 2,
+		fontSize: 20
+	}
+});
