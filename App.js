@@ -83,8 +83,8 @@ export default class App extends Component<{}, State> {
 				const userRef = firebase.database().ref(`/users/${firebaseUser.uid}`);
 				userRef.set({
 					id: firebaseUser.uid,
-					username: 'new_username',
-					displayName: 'Your name',
+					username: 'muzic_user',
+					displayName: 'Muzic user',
 					avatar: `https://api.adorable.io/avatars/100/${firebaseUser.uid}.png`
 				});
 			}

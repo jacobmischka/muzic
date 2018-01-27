@@ -128,7 +128,7 @@ public class SpotifyModule extends ReactContextBaseJavaModule {
 	}
 
 	@ReactMethod
-	public void seekToPosition(Callback callback, int positionInMs) {
+	public void seekToPosition(int positionInMs, Callback callback) {
 		if (activityEventListener.player != null) {
 			activityEventListener.player.seekToPosition(
 				new SimpleOperationCallback(callback),

@@ -12,6 +12,7 @@
   "dependencies": {
     "dlv": "^1.1.1",
     "fbjs": "^0.8.16",
+    "intl": "^1.2.5",
     "react": "16.0.0",
     "react-native": "0.51.0",
     "react-native-firebase": "^3.2.2",

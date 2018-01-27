@@ -7,7 +7,7 @@ import firebase from 'react-native-firebase';
 import Poster from './Poster.js';
 import SpotifyPlayer from './SpotifyPlayer.js';
 
-import { formatDate } from '../utils.js';
+import { dateTime } from '../formatters.js';
 
 import type { User, Post } from '../types.js';
 
@@ -66,7 +66,7 @@ export default class PostView extends Component<Props, State> {
 					startTime={startTime}
 					endTime={endTime} />
 				<Text style={styles.postedAt}>
-					{formatDate(postedAt)}
+					{dateTime(postedAt)}
 				</Text>
 			</View>
 		);
@@ -75,15 +75,22 @@ export default class PostView extends Component<Props, State> {
 
 const styles = StyleSheet.create({
 	post: {
-		display: 'flex'
+		display: 'flex',
+		marginBottom: 50,
+		padding: 5,
+		backgroundColor: 'white'
 	},
 	body: {
-		padding: 50,
-		fontSize: 18
+		paddingTop: 10,
+		paddingBottom: 10,
+		paddingLeft: 50,
+		paddingRight: 10,
+		fontSize: 18,
+		color: 'rgba(0, 0, 0, 0.75)'
 	},
 	postedAt: {
 		margin: 5,
-		color: 'rgba(0, 0, 0, 0.65)',
+		color: 'rgba(0, 0, 0, 0.5)',
 		textAlign: 'right'
 	}
 });

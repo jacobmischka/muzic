@@ -4,14 +4,15 @@ import React, { Component } from 'react';
 import {
 	View,
 	Text,
-	TouchableHighlight,
+	TouchableOpacity,
 	Image,
+	Slider,
 	StyleSheet
 } from 'react-native';
 import SpotifyApi from 'spotify-web-api-js';
 
 import SpotifyModule from '../native-modules/Spotify.js';
-import plusCircleImage from '../assets/png/plus-circle.png';
+import placeholderArt from '../assets/png/bookmark.png';
 import playImage from '../assets/png/play.png';
 import pauseImage from '../assets/png/pause.png';
 
@@ -62,16 +63,24 @@ export default class SpotifyPlayer extends Component<Props, State> {
 		};
 	}
 
-	getClipLength = (): number => {
-		const { startTime, endTime } = this.props;
+	getClipEnd = (): ?number => {
+		const { endTime } = this.props;
 		const { track } = this.state;
 
-		if (endTime || track) {
-			const clipEnd = endTime
-				? endTime
-				: track.duration_ms;
+		return endTime
+			? endTime
+			: track
+				? track.duration_ms
+				: undefined;
+	}
+
+	getClipLength = (): number => {
+		const { startTime } = this.props;
+
+		const clipEnd = this.getClipEnd();
+
+		if (clipEnd)
 			return clipEnd - startTime;
-		}
 
 		return 0;
 	}
@@ -112,29 +121,52 @@ export default class SpotifyPlayer extends Component<Props, State> {
 		}
 	}
 
+	componentWillUnmount() {
+		const { playing } = this.state;
+
+		if (playing) {
+			SpotifyModule.pause(null);
+		}
+	}
+
 	render() {
 		const { track, playing, currentTime } = this.state;
 
-		const image = getImageForTrack(track);
+		const artSize = 100;
+		const image = getImageForTrack(track, artSize);
 		const imageSrc = image && image.url
 			? {uri: image.url}
-			: plusCircleImage;
+			: placeholderArt;
+
+		const clipLength = this.getClipLength();
 
 		return track
 			? (
-				<View>
-					<Text>{track.name}</Text>
-					<Image style={{width: 100, height: 100}}
-						source={imageSrc} />
-					<Text>
-						{playbackTimestamp(currentTime)}
-						{' / '}
-						{playbackTimestamp(this.getClipLength())}
-					</Text>
-					<TouchableHighlight onPress={this.handleTogglePlay}>
-						<Image height={24} width={24}
-							source={playing ? pauseImage : playImage} />
-					</TouchableHighlight>
+				<View style={styles.player}>
+					<View style={styles.artContainer}>
+						<Image style={{width: artSize, height: artSize}}
+							source={imageSrc} />
+					</View>
+					<View style={styles.detailsContainer}>
+						<Text>{track.name}</Text>
+						<View style={styles.controlsContainer}>
+							<TouchableOpacity onPress={this.handleTogglePlay}>
+								<Image height={24} width={24}
+									source={playing ? pauseImage : playImage} />
+							</TouchableOpacity>
+							<Slider style={styles.slider}
+								value={currentTime}
+								maximumValue={clipLength}
+								onSlidingComplete={this.handleSeek} />
+						</View>
+						<View style={styles.timestampContainer}>
+							<Text>
+								{playbackTimestamp(currentTime)}
+								{' / '}
+								{playbackTimestamp(clipLength)}
+							</Text>
+						</View>
+					</View>
 				</View>
 			)
 			: (
@@ -266,4 +298,62 @@ export default class SpotifyPlayer extends Component<Props, State> {
 			this.play();
 		}
 	}
+
+	handleSeek = (position: number) => {
+		const { track, started } = this.state;
+		const index = 0; // FIXME: ?
+
+		if (started) {
+			SpotifyModule.seekToPosition(position, err => {
+				if (err) {
+					logError(err);
+					return;
+				}
+
+				this.setState({
+					currentTime: position
+				}, this.addPlayingTimeInterval);
+			});
+		} else {
+			SpotifyModule.playUri(track.uri, index, position, err => {
+				if (err) {
+					logError(err);
+					return;
+				}
+
+				this.setState({
+					started: true,
+					playing: true,
+					currentTime: position
+				}, this.addPlayingTimeInterval);
+			});
+		}
+	}
 }
+
+const styles = StyleSheet.create({
+	player: {
+		flexDirection: 'row',
+		justifyContent: 'flex-start',
+		paddingLeft: 20,
+		paddingRight: 20
+	},
+	artContainer: {
+		flex: 0,
+		margin: 10
+	},
+	detailsContainer: {
+		flex: 1,
+		margin: 10
+	},
+	controlsContainer: {
+		flexDirection: 'row',
+		justifyContent: 'flex-start'
+	},
+	slider: {
+		flex: 1
+	},
+	timestampContainer: {
+		alignItems: 'center'
+	}
+});

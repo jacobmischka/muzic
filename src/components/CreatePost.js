@@ -1,7 +1,14 @@
 /* @flow */
 
 import React, { Component } from 'react';
-import { Button, Image, Text, TextInput, View, StyleSheet } from 'react-native';
+import {
+	Button,
+	Image,
+	Text,
+	TextInput,
+	View,
+	StyleSheet
+} from 'react-native';
 import firebase from 'react-native-firebase';
 
 import SpotifyClipper from './SpotifyClipper.js';
@@ -53,7 +60,7 @@ export default class CreatePost extends Component<Props, State> {
 
 		return songUri && spotifyToken
 			? (
-				<View>
+				<View style={styles.createPost}>
 					<SpotifyClipper spotifyToken={spotifyToken}
 						songUri={songUri}
 						startTime={startTime}
@@ -65,18 +72,27 @@ export default class CreatePost extends Component<Props, State> {
 							this.setState({endTime});
 						}} />
 
-					<TextInput value={body}
+					<View style={styles.form}>
+						<TextInput value={body}
+							placeholder="Post body text"
+							multiline={true}
 							onChangeText={body => {
-							this.setState({body});
-						}} />
+								this.setState({body});
+							}} />
 
-					<Button title="Post" color={primaryColor}
-						onPress={this.handlePost} />
+						<Button title="Create post" color={primaryColor}
+							onPress={this.handlePost} />
+
+						<Button title="Select another song" color="#333333"
+							onPress={() => {
+								this.setState({ songUri: null });
+							}} />
+					</View>
 				</View>
 			)
 			: spotifyToken
 				? (
-					<View>
+					<View style={styles.createPost}>
 						<UserLibraryList spotifyToken={spotifyToken}
 							onSelect={songUri => {
 								this.setState({ songUri });
@@ -113,6 +129,18 @@ export default class CreatePost extends Component<Props, State> {
 }
 
 const styles = StyleSheet.create({
+	createPost: {
+		flex: 1,
+		flexDirection: 'column',
+		justifyContent: 'space-around'
+	},
+	form: {
+		flex: 1,
+		flexShrink: 0,
+		paddingLeft: 40,
+		paddingRight: 40,
+		justifyContent: 'space-around'
+	},
 	icon: {
 		width: 26,
 		height: 26
