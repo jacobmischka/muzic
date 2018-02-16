@@ -111,6 +111,16 @@ android {
             pickFirst 'lib/x86/libgnustl_shared.so'
         }
     }
+	signingConfigs {
+        release {
+            if (project.hasProperty('MUZIC_RELEASE_STORE_FILE')) {
+                storeFile file(MUZIC_RELEASE_STORE_FILE)
+                storePassword MUZIC_RELEASE_STORE_PASSWORD
+                keyAlias MUZIC_RELEASE_KEY_ALIAS
+                keyPassword MUZIC_RELEASE_KEY_PASSWORD
+            }
+        }
+    }
     splits {
         abi {
             reset()
@@ -123,6 +133,7 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+			signingConfig signingConfigs.release
         }
     }
     // applicationVariants are e.g. debug, release

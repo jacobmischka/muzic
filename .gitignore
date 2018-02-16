@@ -9,7 +9,7 @@ build/
 *.class
 *.dex
 *.apk
-
+*.keystore
 
 # dependencies
 /node_modules
