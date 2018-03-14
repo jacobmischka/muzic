@@ -9,6 +9,7 @@ import firebase from 'react-native-firebase';
 import Login from './src/components/Login.js';
 import Home from './src/components/Home.js';
 import CreatePost from './src/components/CreatePost.js';
+import EditUser from './src/components/EditUser.js';
 
 import { primaryColorDark, headerBackgroundColor } from './src/styles.js';
 import { logError } from './src/errors.js';
@@ -21,6 +22,9 @@ const Navigator = TabNavigator({
 	},
 	CreatePost: {
 		screen: CreatePost
+	},
+	EditUser: {
+		screen: EditUser
 	}
 }, {
 	tabBarComponent: TabBarBottom,
@@ -41,8 +45,12 @@ const Navigator = TabNavigator({
 
 type State = {
 	loggedInSpotify: boolean,
-	firebaseUser: User,
-	spotifyToken: string
+	firebaseUser?: {
+		// FIXME
+		uid: string
+	},
+	user?: User,
+	spotifyToken?: string
 };
 
 type LoginFailedResponse = {
@@ -51,6 +59,7 @@ type LoginFailedResponse = {
 
 export default class App extends Component<{}, State> {
 	unsubAuth: ?() => void;
+	unsubUser: ?() => void;
 
 	constructor(props) {
 		super(props);
@@ -84,17 +93,10 @@ export default class App extends Component<{}, State> {
 			this.setState({firebaseUser});
 			if (firebaseUser) {
 				const userRef = firebase.database().ref(`/users/${firebaseUser.uid}`);
-				userRef.set({
-					id: firebaseUser.uid,
-					username: 'muzic_user',
-					displayName: 'Muzic user',
-					avatar: `https://api.adorable.io/avatars/100/${firebaseUser.uid}.png`
+				this.unsubUser = userRef.on('value', snapshot => {
+					this.setState({user: snapshot.val()});
 				});
 			}
-			// userRef.on('value', snapshot => {
-			// 	if (!snapshot.val()) {
-			// 	}
-			// });
 		});
 
 		firebase.auth().signInAnonymously().catch(logError);
@@ -103,10 +105,12 @@ export default class App extends Component<{}, State> {
 	componentWillUnmount() {
 		if (this.unsubAuth)
 			this.unsubAuth();
+		if (this.unsubUser)
+			this.unsubUser();
 	}
 
 	render() {
-		const {spotifyToken, firebaseUser } = this.state;
+		const { spotifyToken, firebaseUser, user } = this.state;
 
 		if (!firebaseUser)
 			return (
@@ -116,17 +120,21 @@ export default class App extends Component<{}, State> {
 			);
 
 		return spotifyToken
-		? (
-			<View style={{flex: 1, marginTop: StatusBar.currentHeight}}>
-				<StatusBar
-					translucent={true}
-					barStyle="dark-content"
-					backgroundColor={headerBackgroundColor} />
-				<Navigator screenProps={{spotifyToken, firebaseUser}} />
-			</View>
-		)
-		: (
-			<Login />
-		);
+			? user
+				? (
+					<View style={{flex: 1, marginTop: StatusBar.currentHeight}}>
+						<StatusBar
+							translucent={true}
+							barStyle="dark-content"
+							backgroundColor={headerBackgroundColor} />
+						<Navigator screenProps={{spotifyToken, firebaseUser, user}} />
+					</View>
+				)
+				: (
+					<EditUser screenProps={{firebaseUser}} />
+				)
+			: (
+				<Login />
+			);
 	}
 }
