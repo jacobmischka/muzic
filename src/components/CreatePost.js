@@ -50,7 +50,7 @@ export default class CreatePost extends Component<Props, State> {
 			songUri,
 			body: '',
 			startTime: 0,
-			endTime: 0
+			endTime: 30000
 		};
 	}
 
@@ -66,7 +66,16 @@ export default class CreatePost extends Component<Props, State> {
 						startTime={startTime}
 						endTime={endTime}
 						onStartChange={startTime => {
-							this.setState({startTime});
+							this.setState(state => {
+								const update = {
+									startTime
+								};
+
+								if (startTime > state.endTime)
+									update.endTime = startTime;
+
+								return update;
+							});
 						}}
 						onEndChange={endTime => {
 							this.setState({endTime});

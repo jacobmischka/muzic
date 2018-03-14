@@ -36,9 +36,7 @@ export default class Timeline extends Component<Props, State> {
 
 		const childAddedOrChanged = snapshot => {
 			this.setState(({posts}) => {
-				const oldMap = Array.from(posts.entries());
-
-				posts = new Map(oldMap);
+				posts = new Map(posts.entries());
 				posts.set(snapshot.key, snapshot.val());
 				return { posts };
 			});
@@ -86,11 +84,22 @@ export default class Timeline extends Component<Props, State> {
 		const { spotifyToken } = this.props;
 		const { posts, refreshingPosts } = this.state;
 
+		const keys = Array.from(posts.keys());
+		const sortedPosts = keys
+			.sort((a, b) => {
+				if (a > b)
+					return -1;
+				if (b > a)
+					return 1;
+				return 0;
+			})
+			.map(key => posts.get(key));
+
 		return (
 			<View style={styles.timeline}>
 				<FlatList
 					keyExtractor={post => post.id}
-					data={Array.from(posts.values())}
+					data={sortedPosts}
 					extraData={spotifyToken}
 					renderItem={({item}) =>
 						<PostView spotifyToken={spotifyToken} {...item} />

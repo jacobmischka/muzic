@@ -121,6 +121,20 @@ export default class SpotifyPlayer extends Component<Props, State> {
 		}
 	}
 
+	componentWillReceiveProps(nextProps: Props) {
+		const { startTime, endTime } = this.props;
+		const { playing } = this.state;
+		if (
+			playing
+			&& (
+				nextProps.startTime !== startTime
+				|| nextProps.endTime !== endTime
+			)
+		) {
+			this.stop();
+		}
+	}
+
 	componentWillUnmount() {
 		const { playing } = this.state;
 
@@ -244,12 +258,10 @@ export default class SpotifyPlayer extends Component<Props, State> {
 				return;
 			}
 
-			if (this.state.playing !== playbackState.isPlaying) {
-				if (playbackState.isPlaying) {
-					this.addPlayingTimeInterval();
-				} else {
-					this.removePlayingTimeInterval();
-				}
+			if (playbackState.isPlaying) {
+				this.addPlayingTimeInterval();
+			} else {
+				this.removePlayingTimeInterval();
 			}
 
 			this.setState({

@@ -1,21 +1,17 @@
 /* @flow */
 
 import React, { Component } from 'react';
-import { View, Button, Image, StyleSheet } from 'react-native';
+import { View, Button, Text, StyleSheet } from 'react-native';
 
 import Spotify from '../native-modules/Spotify.js';
 
-import muzicLogo from '../assets/png/muzic.png';
-
-import { spotifyColor } from '../styles.js';
+import { spotifyColor, primaryColor } from '../styles.js';
 
 export default class Login extends Component<{}, {}> {
 	render() {
 		return (
 			<View style={styles.container}>
-				<Image width={50}
-					height={100}
-					source={muzicLogo} />
+				<Text style={styles.heading}>MUZIC</Text>
 				<Button title="Log in with Spotify"
 					style={styles.button}
 					color={spotifyColor}
@@ -35,8 +31,12 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-around',
 		alignItems: 'center'
 	},
+	headingContainer: {
+		backgroundColor: 'black'
+	},
 	heading: {
-		fontSize: 72
+		fontSize: 72,
+		color: primaryColor
 	},
 	button: {
 		width: '80%'

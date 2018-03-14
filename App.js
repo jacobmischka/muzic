@@ -10,7 +10,7 @@ import Login from './src/components/Login.js';
 import Home from './src/components/Home.js';
 import CreatePost from './src/components/CreatePost.js';
 
-import { headerBackgroundColor } from './src/styles.js';
+import { primaryColorDark, headerBackgroundColor } from './src/styles.js';
 import { logError } from './src/errors.js';
 
 import type { User } from './src/types.js';
@@ -33,6 +33,9 @@ const Navigator = TabNavigator({
 			backgroundColor: headerBackgroundColor,
 			marginTop: StatusBar.currentHeight
 		}
+	},
+	tabBarOptions: {
+		activeTintColor: primaryColorDark
 	}
 });
 

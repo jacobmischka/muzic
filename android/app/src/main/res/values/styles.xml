@@ -2,10 +2,10 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-		<item name="colorPrimary">#ff5722</item>
-        <item name="colorPrimaryDark">#c41c00</item>
-        <item name="colorAccent">#FF4081</item>
-        <item name="colorButtonNormal">#ff5722</item>
+		<item name="colorPrimary">#e0e84c</item>
+        <item name="colorPrimaryDark">#a6ac33</item>
+        <item name="colorAccent">#e0e84c</item>
+        <item name="colorButtonNormal">#e0e84c</item>
     </style>
 
 </resources>

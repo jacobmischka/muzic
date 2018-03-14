@@ -73,7 +73,9 @@ export default class SpotifyClipper extends Component<Props, State> {
 			? (
 				<View style={styles.clipper}>
 					<SpotifyPlayer spotifyToken={spotifyToken}
-						songUri={songUri} />
+						songUri={songUri}
+						startTime={startTime}
+						endTime={endTime} />
 
 					<View style={styles.slidersContainer}>
 						<View style={styles.sliderContainer}>
